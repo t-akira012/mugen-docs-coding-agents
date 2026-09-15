@@ -20,22 +20,5 @@ jobs:
       - name: Set up uv
         uses: astral-sh/setup-uv@v6
 
-      - name: Sync dependencies
-        run: uv sync
-
-      - name: Build normalized corpus
-        run: uv run python scripts/build_docs.py --clean
-
-      - name: Validate index
-        run: |
-          uv run python - <<'PY'
-          import json
-          from pathlib import Path
-
-          path = Path("generated/index.json")
-          data = json.loads(path.read_text(encoding="utf-8"))
-          sources = data.get("sources", [])
-          assert sources, "generated/index.json has no sources"
-          assert all(item.get("sections") for item in sources), "a source has no split sections"
-          print(f"validated {len(sources)} sources")
-          PY
+      - name: Run full build and validation
+        run: make run
