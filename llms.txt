@@ -1,0 +1,28 @@
+# WinMUGEN docs for Coding Agents
+
+Primary agent instructions:
+- AGENTS.md
+
+Source manifest:
+- sources.json
+
+Hand-written operational references:
+- docs/CNS_CORE.md
+- docs/COMPATIBILITY.md
+
+Generated corpus after running scripts/build_docs.py:
+- generated/index.json
+- generated/full/cns.md
+- generated/full/sctrls.md
+- generated/full/trigger.md
+- generated/full/air.md
+- generated/sections/cns/
+- generated/sections/sctrls/
+- generated/sections/trigger/
+- generated/sections/air/
+
+Lookup rule:
+1. Read AGENTS.md.
+2. Search generated/index.json by exact controller, trigger, or CNS heading.
+3. Open the referenced split Markdown section.
+4. Use the source URL in that file when upstream context is required.
