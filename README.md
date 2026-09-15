@@ -13,30 +13,29 @@ The repository does **not** blindly mirror the upstream HTML. It gives coding ag
 - explicit engine-compatibility rules;
 - operational instructions in `AGENTS.md`.
 
-## Build the local corpus
+## Run everything
+
+Use the root `Makefile` as the command interface.
 
 ```bash
-uv sync
-uv run python scripts/build_docs.py
+make run
 ```
 
-For CNS only:
+`make run` completes dependency synchronization, a full clean documentation build, and validation of the generated index.
+
+Other supported targets:
 
 ```bash
-uv run python scripts/build_docs.py --only cns
+make cns
+make core
+make clean
 ```
 
-For the main character-coding references:
+- `make cns`: build only the CNS documentation.
+- `make core`: build CNS, State Controller, and Trigger references.
+- `make clean`: remove generated output.
 
-```bash
-uv run python scripts/build_docs.py --only cns,sctrls,trigger
-```
-
-A clean rebuild:
-
-```bash
-uv run python scripts/build_docs.py --clean
-```
+Python dependency management and execution inside the Makefile use `uv` exclusively.
 
 ## Output
 
@@ -60,6 +59,7 @@ generated/
 ## Repository map
 
 ```text
+Makefile                  Canonical local/CI command interface
 AGENTS.md                 Agent behavior and coding rules
 AGENTS.ja.md              Japanese version of the agent rules
 README.ja.md              Japanese README
