@@ -1,5 +1,7 @@
 # WinMUGEN docs for Coding Agents
 
+[日本語](README.ja.md)
+
 Agent-readable documentation infrastructure for Elecbyte M.U.G.E.N character coding.
 
 The repository does **not** blindly mirror the upstream HTML. It gives coding agents:
@@ -14,26 +16,26 @@ The repository does **not** blindly mirror the upstream HTML. It gives coding ag
 ## Build the local corpus
 
 ```bash
-python3 -m pip install -e .
-python3 scripts/build_docs.py
+uv sync
+uv run python scripts/build_docs.py
 ```
 
 For CNS only:
 
 ```bash
-python3 scripts/build_docs.py --only cns
+uv run python scripts/build_docs.py --only cns
 ```
 
 For the main character-coding references:
 
 ```bash
-python3 scripts/build_docs.py --only cns,sctrls,trigger
+uv run python scripts/build_docs.py --only cns,sctrls,trigger
 ```
 
 A clean rebuild:
 
 ```bash
-python3 scripts/build_docs.py --clean
+uv run python scripts/build_docs.py --clean
 ```
 
 ## Output
@@ -59,6 +61,8 @@ generated/
 
 ```text
 AGENTS.md                 Agent behavior and coding rules
+AGENTS.ja.md              Japanese version of the agent rules
+README.ja.md              Japanese README
 llms.txt                  Compact LLM entry-point index
 sources.json              Official source manifest
 docs/CNS_CORE.md          Short CNS execution/trigger invariants
