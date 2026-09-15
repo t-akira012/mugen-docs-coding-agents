@@ -3,6 +3,9 @@
 Primary agent instructions:
 - AGENTS.md
 
+Canonical repository command:
+- make run
+
 Source manifest:
 - sources.json
 
@@ -10,7 +13,7 @@ Hand-written operational references:
 - docs/CNS_CORE.md
 - docs/COMPATIBILITY.md
 
-Generated corpus after running scripts/build_docs.py:
+Generated corpus after `make run`:
 - generated/index.json
 - generated/full/cns.md
 - generated/full/sctrls.md
@@ -23,6 +26,7 @@ Generated corpus after running scripts/build_docs.py:
 
 Lookup rule:
 1. Read AGENTS.md.
-2. Search generated/index.json by exact controller, trigger, or CNS heading.
-3. Open the referenced split Markdown section.
-4. Use the source URL in that file when upstream context is required.
+2. Run `make run` when the generated corpus is absent or needs rebuilding.
+3. Search generated/index.json by exact controller, trigger, or CNS heading.
+4. Open the referenced split Markdown section.
+5. Use the source URL in that file when upstream context is required.
