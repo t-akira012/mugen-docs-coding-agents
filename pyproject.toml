@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mugen-docs-coding-agents"
+version = "0.1.0"
+description = "Machine-readable Elecbyte M.U.G.E.N documentation corpus for coding agents"
+requires-python = ">=3.10"
+dependencies = [
+  "beautifulsoup4>=4.12",
+  "markdownify>=0.13"
+]
+
+[tool.setuptools]
+py-modules = []
