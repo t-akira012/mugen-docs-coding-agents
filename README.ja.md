@@ -13,32 +13,29 @@ Elecbyte M.U.G.E.N のキャラクターコーディング仕様を、Coding Age
 - エンジン互換性に関する明示的な規則
 - `AGENTS.md` / `AGENTS.ja.md` による Agent 向け運用指示
 
-## ローカルコーパスを生成する
+## すべて実行する
 
-Python の依存関係管理と実行には **uv のみ**を使用します。
-
-```bash
-uv sync
-uv run python scripts/build_docs.py
-```
-
-CNS のみ生成する場合:
+操作窓口はルートの `Makefile` に統一します。
 
 ```bash
-uv run python scripts/build_docs.py --only cns
+make run
 ```
 
-主要なキャラクターコーディング資料のみ生成する場合:
+`make run` だけで、依存関係の同期、全ドキュメントの clean build、生成された index の検証まで完了します。
+
+補助 target:
 
 ```bash
-uv run python scripts/build_docs.py --only cns,sctrls,trigger
+make cns
+make core
+make clean
 ```
 
-生成物を削除して再生成する場合:
+- `make cns`: CNS ドキュメントのみ生成する。
+- `make core`: CNS、State Controller、Trigger の主要資料を生成する。
+- `make clean`: 生成物を削除する。
 
-```bash
-uv run python scripts/build_docs.py --clean
-```
+Makefile 内での Python 依存関係管理と実行には `uv` のみを使用します。
 
 ## 生成物
 
@@ -62,6 +59,7 @@ generated/
 ## リポジトリ構成
 
 ```text
+Makefile                  ローカル・CI 共通の操作窓口
 AGENTS.md                 Agent の動作・コーディング規則
 AGENTS.ja.md              上記の日本語版
 README.md                 英語版 README
