@@ -14,16 +14,18 @@ The immediate use case is editing WinMUGEN character CNS/CMD/AIR code with codin
 
 If two sources conflict, do not silently choose one. Report the conflict and prefer the higher source in the order above.
 
-## Tooling rule: uv only
+## Tooling rule: Makefile entry point, uv only
 
-Python dependency management and Python command execution in this repository must use `uv`.
+Repository operations must be exposed through the root `Makefile`.
 
-- Use `uv sync` to install or synchronize dependencies.
-- Use `uv run python ...` to run Python scripts.
+- `make run` is the canonical full-run command. It must complete dependency synchronization, a full clean documentation build, and validation.
+- Prefer existing Make targets over invoking underlying commands directly.
+- If a new recurring repository operation is needed, add a Make target for it instead of documenting an ad-hoc shell command.
+- Python dependency management and Python command execution inside the Makefile must use `uv` exclusively.
 - Do not use `pip`.
 - Do not use `python -m pip` or `python3 -m pip`.
-- Do not add documentation, scripts, CI configuration, or agent instructions that install dependencies with `pip`.
-- When modifying an existing command, preserve this `uv`-only policy.
+- Do not add documentation, scripts, CI configuration, agent instructions, or Make targets that install dependencies with `pip`.
+- CI should call the same Make targets used locally rather than duplicating build commands.
 
 ## Compatibility rule
 
@@ -51,14 +53,17 @@ See `docs/COMPATIBILITY.md`.
 
 ## Documentation workflow
 
-If `generated/index.json` does not exist, run:
+For a complete local setup, build, and validation, run:
 
 ```bash
-uv sync
-uv run python scripts/build_docs.py
+make run
 ```
 
-The generator downloads the official documents at build time and writes normalized Markdown plus a machine-readable section index. Generated vendor text is intentionally not committed.
+This is the normal entry point. The Makefile synchronizes dependencies with `uv`, performs a clean build of the official documentation corpus, and validates the generated index.
+
+Other supported operations are also exposed as Make targets, such as focused CNS/core builds and cleanup. Inspect `Makefile` rather than bypassing it with direct Python commands.
+
+Generated vendor text is intentionally not committed.
 
 For a focused lookup, search `generated/index.json` first, then open the referenced Markdown section.
 
