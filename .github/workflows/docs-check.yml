@@ -1,0 +1,38 @@
+name: docs-check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install builder
+        run: python -m pip install -e .
+
+      - name: Build normalized corpus
+        run: python scripts/build_docs.py --clean
+
+      - name: Validate index
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path("generated/index.json")
+          data = json.loads(path.read_text(encoding="utf-8"))
+          sources = data.get("sources", [])
+          assert sources, "generated/index.json has no sources"
+          assert all(item.get("sections") for item in sources), "a source has no split sections"
+          print(f"validated {len(sources)} sources")
+          PY
