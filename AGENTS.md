@@ -43,8 +43,8 @@ See `docs/COMPATIBILITY.md`.
 If `generated/index.json` does not exist, run:
 
 ```bash
-python3 -m pip install -e .
-python3 scripts/build_docs.py
+uv sync
+uv run python scripts/build_docs.py
 ```
 
 The generator downloads the official documents at build time and writes normalized Markdown plus a machine-readable section index. Generated vendor text is intentionally not committed.
