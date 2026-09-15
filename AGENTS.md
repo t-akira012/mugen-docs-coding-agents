@@ -14,6 +14,17 @@ The immediate use case is editing WinMUGEN character CNS/CMD/AIR code with codin
 
 If two sources conflict, do not silently choose one. Report the conflict and prefer the higher source in the order above.
 
+## Tooling rule: uv only
+
+Python dependency management and Python command execution in this repository must use `uv`.
+
+- Use `uv sync` to install or synchronize dependencies.
+- Use `uv run python ...` to run Python scripts.
+- Do not use `pip`.
+- Do not use `python -m pip` or `python3 -m pip`.
+- Do not add documentation, scripts, CI configuration, or agent instructions that install dependencies with `pip`.
+- When modifying an existing command, preserve this `uv`-only policy.
+
 ## Compatibility rule
 
 The official CNS page used to seed this repository identifies itself as M.U.G.E.N 1.0 documentation (2009). Do **not** infer that every documented 1.0 feature exists in older WinMUGEN builds.
