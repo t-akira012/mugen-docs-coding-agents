@@ -2,79 +2,65 @@
 
 ## Purpose
 
-This repository is a machine-readable reference corpus for Elecbyte M.U.G.E.N character coding.
-The immediate use case is editing WinMUGEN character CNS/CMD/AIR code with coding agents.
+This repository provides a pre-generated local reference corpus for Elecbyte M.U.G.E.N character coding.
+The intended use is to help coding agents edit WinMUGEN character CNS / CMD / AIR code by consulting the generated local documentation.
 
-## Source-of-truth order
+This file describes how to **use the generated corpus**. It does not describe how to build, regenerate, install, or maintain the corpus.
 
-1. Official Elecbyte documentation listed in `sources.json`
-2. Generated normalized documents under `generated/`
-3. Hand-written notes under `docs/`
-4. Existing character code, only as evidence of project conventions — never as proof of engine semantics
+## Required lookup workflow
 
-If two sources conflict, do not silently choose one. Report the conflict and prefer the higher source in the order above.
+When engine behavior, controller syntax, trigger semantics, defaults, timing, or execution context must be checked:
 
-## Tooling rule: Makefile entry point, uv only
+1. Search `generated/index.json` first.
+2. Locate the exact controller, trigger, CNS heading, or AIR heading.
+3. Open the Markdown file referenced by the matching index entry.
+4. Read only the relevant generated section and any directly related sections required to resolve the task.
+5. Use `docs/` only for hand-written operational notes and compatibility boundaries.
+6. Use existing character code only to learn project-local conventions, never as proof of engine semantics.
 
-Repository operations must be exposed through the root `Makefile`.
+Do not skip `generated/index.json` and guess from memory when the local corpus contains the relevant specification.
 
-- `make run` is the canonical full-run command. It must complete dependency synchronization, a full clean documentation build, and validation.
-- Prefer existing Make targets over invoking underlying commands directly.
-- If a new recurring repository operation is needed, add a Make target for it instead of documenting an ad-hoc shell command.
-- Python dependency management and Python command execution inside the Makefile must use `uv` exclusively.
-- Do not use `pip`.
-- Do not use `python -m pip` or `python3 -m pip`.
-- Do not add documentation, scripts, CI configuration, agent instructions, or Make targets that install dependencies with `pip`.
-- CI should call the same Make targets used locally rather than duplicating build commands.
+## Local-only documentation rule
+
+Use the documentation already present in this repository.
+
+- Do not fetch Elecbyte documentation from the web during character-coding work.
+- Do not run the documentation generator.
+- Do not install or synchronize dependencies for the purpose of reading the corpus.
+- Do not treat repository build or maintenance procedures as part of the character-coding task.
+
+If the required behavior cannot be established from the local corpus, report it as unresolved or `unverified` instead of silently importing external behavior.
 
 ## Compatibility rule
 
-The official CNS page used to seed this repository identifies itself as M.U.G.E.N 1.0 documentation (2009). Do **not** infer that every documented 1.0 feature exists in older WinMUGEN builds.
+The generated corpus includes material derived from M.U.G.E.N 1.0 documentation. Do **not** infer that every documented 1.0 feature exists in older WinMUGEN builds.
 
 For strict WinMUGEN work:
 
 - do not use M.U.G.E.N 1.1 or Ikemen GO extensions;
-- treat a feature as WinMUGEN-compatible only when compatibility is established by an appropriate source or by the target character/runtime;
-- otherwise mark compatibility as `unverified` instead of inventing an answer.
-
-See `docs/COMPATIBILITY.md`.
+- treat a feature as WinMUGEN-compatible only when compatibility is established by the local corpus, `docs/COMPATIBILITY.md`, or the target runtime / character evidence;
+- otherwise mark compatibility as `unverified`.
 
 ## Coding rules
 
-- Preserve controller order. State controllers are evaluated in source order and reordering can change behavior.
-- Preserve repeated trigger numbers. Repeated `triggerN` lines form an AND-group; different `N` groups form alternatives.
-- Do not renumber triggers across gaps without understanding the semantics.
+- Preserve State Controller order. Reordering controllers can change behavior.
+- Preserve repeated `triggerN` lines. Repeated lines with the same number form an AND-group; different numbered groups are alternatives.
+- Do not renumber triggers across gaps without first establishing the semantics.
 - Do not translate engine identifiers such as `StateDef`, `ChangeState`, `HitDef`, `AnimElem`, `Time`, `triggerall`, `persistent`, or `ignorehitpause`.
 - Do not invent controller parameters, trigger names, defaults, or return values.
 - Keep comments separate from executable CNS syntax. `;` begins a comment.
 - Treat State -3, -2, -1 and the current state as distinct execution contexts.
-- Treat helper execution rules separately from root-player rules.
-- When uncertain, locate the exact controller/trigger section in `generated/index.json` before editing code.
-
-## Documentation workflow
-
-For a complete local setup, build, and validation, run:
-
-```bash
-make run
-```
-
-This is the normal entry point. The Makefile synchronizes dependencies with `uv`, performs a clean build of the official documentation corpus, and validates the generated index.
-
-Other supported operations are also exposed as Make targets, such as focused CNS/core builds and cleanup. Inspect `Makefile` rather than bypassing it with direct Python commands.
-
-Generated vendor text is intentionally not committed.
-
-For a focused lookup, search `generated/index.json` first, then open the referenced Markdown section.
+- Treat Helper execution rules separately from Root Player rules.
 
 ## Editing character code
 
 Before changing a controller or trigger:
 
 1. identify the exact engine construct;
-2. locate its reference entry;
-3. verify required/optional parameters and defaults;
+2. find it through `generated/index.json`;
+3. verify required and optional parameters, defaults, and legal values;
 4. verify execution context and trigger timing;
-5. make the smallest code change that satisfies the request.
+5. verify WinMUGEN compatibility when the behavior is version-sensitive;
+6. make the smallest code change that satisfies the request.
 
-Do not perform unrelated formatting or controller reordering while making a behavioral change.
+Do not perform unrelated formatting, controller reordering, or broad cleanup together with a behavioral change.
