@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "corpus": "Elecbyte M.U.G.E.N character coding documentation",
+  "compatibility_note": "The seed documentation is labeled by Elecbyte as M.U.G.E.N 1.0 documentation. Strict WinMUGEN compatibility must be verified separately.",
+  "sources": [
+    {
+      "id": "cns",
+      "title": "The CNS format",
+      "url": "https://www.elecbyte.com/mugendocs/cns.html",
+      "role": "CNS syntax, state execution model, StateDef, controller/trigger semantics and expressions"
+    },
+    {
+      "id": "sctrls",
+      "title": "State Controller Reference",
+      "url": "https://www.elecbyte.com/mugendocs/sctrls.html",
+      "role": "State controller catalog and parameters"
+    },
+    {
+      "id": "trigger",
+      "title": "Trigger Reference",
+      "url": "https://www.elecbyte.com/mugendocs/trigger.html",
+      "role": "Function-type trigger catalog and semantics"
+    },
+    {
+      "id": "air",
+      "title": "The AIR format and standard",
+      "url": "https://www.elecbyte.com/mugendocs/air.html",
+      "role": "Animation actions and AIR syntax used by CNS code"
+    }
+  ]
+}
